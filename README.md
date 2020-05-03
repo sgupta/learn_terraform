@@ -6,13 +6,16 @@
 ### Terraform state
 
 ## Resource types 
-### Variables
-#### Use to create a variable. You can also assign a default value in case value not passed when variable used. Variable can be simple string, list or map.
+### Input Variables
+#### Use to create a variable. You can also assign a default value in case value not passed when variable used. Variable can be of type string, number, bool, list(<type>), set(<type>), map(<type>), object(<{<ATTR_NAME> = <TYPE>}), tuple. 
  
  ``` 
    variable "aws_access_key" {} # This variable can be used as "var.aws_access_key" inside terraform plan
    variable "aws_region" {
         default = "us-east-1"  #Default value in case var.aws_region called and no value passed for variable.
+        type    = string #optinal type
+        description = "AWS region for resources to be created" # optional description
+        
     }
     # Using [] create list style vraible
     variable "cidrs" {
@@ -21,8 +24,14 @@
      
      # Using "type" to declate list type variable
      variable "cidrs" {
-        type = list
-     }
+        type = list(string)
+      }
+    
+    # Set a variable type list and values as srtings 
+    variable "availability_zone_names" {
+          type    = list(string)
+          default = [ "us-east-1a", "us-east-2a" ]
+        }
     
     # Using map style variable. You can use {} to implicitly define it as map or use type=map
     variable "amis" {
@@ -32,6 +41,23 @@
             "us-east-2" = "amis-4b32be2b"
         }
     }
+    # Complex list type example. In below example you createing a list variable and each element in list is a map. Docker_ports is list varibale and each element in list is map.
+    variable "docker_ports" {
+         type = list(object({
+     internal = number
+     external = number
+      protocol = string
+      }))
+     default = [
+     {
+      internal = 8300
+      external = 8300
+      protocol = "tcp"
+      }
+     ]
+   }
+     
+    
  ```
  ### Assigning Variables 
  #### There are mutiple ways to assign variables. The order below is also the order in which variable value are choosen
@@ -70,3 +96,8 @@
    ```
   4. UI input . If you execute terraform apply with any variable unspecified, Terraform will ask you to input the values interactively.
   
+### Output Variables
+
+### Variables Lab
+
+#### Create a tarraform file(variable.tf) using string, list and map types of variable. Pass variable values through file tarraform.tfvars file when runnning "terraform apply". 
