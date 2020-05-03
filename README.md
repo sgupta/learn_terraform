@@ -96,8 +96,5 @@
    ```
   4. UI input . If you execute terraform apply with any variable unspecified, Terraform will ask you to input the values interactively.
   
-### Output Variables
+### https://github.com/sgupta/learn_terraform/blob/master/OUTPUT_VARIABLES.md
 
-### Variables Lab
-
-#### Create a tarraform file(variable.tf) using string, list and map types of variable. Pass variable values through file tarraform.tfvars file when runnning "terraform apply". 
