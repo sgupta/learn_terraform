@@ -19,5 +19,41 @@ Chapter 1  - https://github.com/sgupta/learn_terraform/blob/master/README.md
     
   ```
 
+# MODULES 
 
-#### Create a tarraform file(variable.tf) using string, list and map types of variable. Pass variable values through file tarraform.tfvars file when runnning "terraform apply". 
+Modules make it easy to reuse and organize terraform resources. 
+A Terraform module is a set of Terraform configuration files in a single directory. Even a simple configuration consisting of a single directory with one or more .tf files is a module. When you run Terraform commands directly from such a directory, it is considered the root module. So in this sense, every Terraform configuration is part of a module. You may have a simple set of Terraform configuration files such as:
+
+```
+$ tree minimal-module/
+.
+├── LICENSE
+├── README.md
+├── main.tf
+├── variables.tf
+├── outputs.tf
+
+```
+In this case, when you run terraform commands from within the minimal-module directory, the contents of that directory are considered the root module.
+
+## Calling modules
+ Terraform commands will only directly use the configuration files in one directory, which is usually the current working directory. However, your configuration can use module blocks to call modules in other directories. When Terraform encounters a module block, it loads and processes that module's configuration files.
+A module that is called by another configuration is sometimes referred to as a "child module" of that configuration.
+
+## Local and remote modules
+ Modules can be either loaded from the local filesystem or remote source. Terraform supports a variety of remote sources, including the Terraform regisitry, most version control systems, HTTP URL. 
+ 
+## Module best practices 
+We recommend that every Terraform practitioner use modules by following these best practices:
+
+Start writing your configuration with modules in mind. Even for modestly complex Terraform configurations managed by a single person, you'll find the benefits of using modules outweigh the time it takes to use them properly.
+
+Use local modules to organize and encapsulate your code. Even if you aren't using or publishing remote modules, organizing your configuration in terms of modules from the beginning will significantlty reduce the burden of maintaining and updating your configuration as your infrastructure grows in complexity.
+
+Use the public Terraform Registry to find useful modules. This way you can more quickly and confidently implement your configuration by relying on the work of others to implement common infrastructure scenarios.
+https://registry.terraform.io/modules/terraform-aws-modules
+
+Publish and share modules with your team. Most infrastructure is managed by a team of people, and modules are important way that teams can work together to create and maintain infrastructure. As mentioned earlier, you can publish modules either publicly or privately. We will see how to do this in a future guide in this series.
+
+
+
