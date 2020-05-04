@@ -55,6 +55,11 @@ https://registry.terraform.io/modules/terraform-aws-modules
 
 4. Publish and share modules with your team. Most infrastructure is managed by a team of people, and modules are important way that teams can work together to create and maintain infrastructure. As mentioned earlier, you can publish modules either publicly or privately. We will see how to do this in a future guide in this series.
 
+## Using modules
+
+In order to use most modules, you will need to pass input variables to the module configuration. The configuration that calls a module is responsible for setting its input values, which are passed as arguments in the module block. Aside from source and version, most of the arguments to a module block will set variable values.
+Module documentation should describe all of the input variables that module support. Some input variables are required, meaning that the module doesn't provide a default value — an explicit value must be provided in order for Terraform to run correctly. Example https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.32.0?tab=inputs#required-inputs
+
 ## Module use examples 
 1.  Below example using aws VPC module from public terraform registry to create a VPC
 
