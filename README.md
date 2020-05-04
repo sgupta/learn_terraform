@@ -4,10 +4,66 @@
 ### Terraform files
 ### Terraform plugins
 ### Terraform state
+ Terraform must store state about your managed infrastructure and configuration. This state is used by Terraform to map real world resources to your configuration, keep track of metadata, and to improve performance for large infrastructures.
+ This state is stored by default in a local file named "terraform.tfstate", but it can also be stored remotely, which works better in a team environment.
+ 
+ The state is in JSON format and Terraform will promise backwards compatibility with the state file. The JSON format makes it easy to write tools around the state if you want or to modify it by hand in the case of a Terraform bug.
+ If supported by your backend, Terraform will lock your state for all operations that could write state. This prevents others from acquiring the lock and potentially corrupting your state.
+ State locking happens automatically on all operations that could write state. You won't see any message that it is happening. If state locking fails, Terraform will not continue. You can disable state locking for most commands with the -lock flag but it is not recommended.
+ Terraform has a force-unlock command to manually unlock the state if unlocking failed.
+#### Local state Stoarge 
+ Use below format to define location of terraform state file on local storge
+````
+terraform {
+  backend "local" {
+    path = "/mnt/c/Users/sg197_000/terraform_state/terraform_1.tfstate"
+  }
+}
+````
 
+#### Remote State Storage
+ In production environments it is considered a best practice to store state elsewahere than your local machine. This best way to do this is by running Terrafrom in a remote environment with shared access to state.
+ Terraform supports team-based workflows with a feature knows as "remote backends". Remote backends allow Terraform to use a shared storage space to state data, so any member or your team can use Terraform to manage the same infrastructure.
+ Use below format to store terraform state file in Hashicorp Terraform Cloud 
+
+https://www.terraform.io/docs/backends/types/index.html
+
+````
+#Hashicorp Terraform Cloud 
+terraform {
+  backend "remote" {
+    organization = "<ORG_NAME>"
+
+    workspaces {
+      name = "Example-Workspace"
+    }
+  }
+}
+
+#S3 Bucket 
+terraform {
+  backend "s3" {
+    bucket = "mybucket"
+    key    = "path/to/my/key"
+    region = "us-east-1"
+  }
+}
+
+#HTTP 
+terraform {
+  backend "http" {
+    address = "http://myrest.api.com/foo"
+    lock_address = "http://myrest.api.com/foo"
+    unlock_address = "http://myrest.api.com/foo"
+  }
+}
+
+````
+ 
+ 
 ## Resource types 
 ### Input Variables
-#### Use to create a variable. You can also assign a default value in case value not passed when variable used. Variable can be of type string, number, bool, list(<type>), set(<type>), map(<type>), object(<{<ATTR_NAME> = <TYPE>}), tuple. 
+ Use to create a variable. You can also assign a default value in case value not passed when variable used. Variable can be of type string, number, bool, list(<type>), set(<type>), map(<type>), object(<{<ATTR_NAME> = <TYPE>}), tuple. 
  
  ``` 
    variable "aws_access_key" {} # This variable can be used as "var.aws_access_key" inside terraform plan
