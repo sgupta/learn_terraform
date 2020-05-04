@@ -152,5 +152,5 @@ terraform {
    ```
   4. UI input . If you execute terraform apply with any variable unspecified, Terraform will ask you to input the values interactively.
   
-### https://github.com/sgupta/learn_terraform/master/README1.md
+### https://github.com/sgupta/learn_terraform/blob/master/README1.md
 
